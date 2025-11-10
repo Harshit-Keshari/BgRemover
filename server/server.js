@@ -1,33 +1,34 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import connectDB from './config/mongoDb.js';
-import userRouter from './routes/userRoutes.js';
+import connectDB from './config/mongoDb.js'
+import userRouter from './routes/userRoutes.js'
 
-await connectDB();
-// App config 
-const PORT=process.env.PORT || 4000;
+// Initialize app
+const app = express()
+app.use(express.json())
+app.use(cors())
 
-const app =express()
+// Routes
+app.get('/', (req, res) => res.send('API Working ✅'))
+app.use('/api/user', userRouter)
 
-// Middlewares 
-app.use(express.json()) // for parsing
-app.use(cors()) // to connect client running on different port
-app.get('/',(req,res)=>{res.send("API Working")})
-
-// API routes
-app.use('/api/user',userRouter)
-
-if(process.env.NODE_ENV !=='production'){
-    app.listen(PORT , (err)=>{
-        if(!err){
-            console.log(`server is running on ${PORT}`);
-        }
-    })
+// Connect DB safely
+const init = async () => {
+  try {
+    await connectDB()
+    console.log('✅ MongoDB connected successfully')
+  } catch (error) {
+    console.error('❌ MongoDB connection failed:', error.message)
+  }
 }
 
-// app.listen(PORT,()=>{
-//     console.log(`Running on PORT: http://localhost:${PORT} `)
-// });
+init()
 
-export default app;
+// Local dev only (Vercel auto handles serverless invocation)
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 4000
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+}
+
+export default app
