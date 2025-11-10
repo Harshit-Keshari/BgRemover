@@ -18,9 +18,9 @@ app.use(express.json()) // for parsing
 app.use(cors()) // to connect client running on different port
 
 // API routes
-
-app.get('/',(req,res)=>{res.send("API Working")})
 app.use('/api/user',userRouter)
+app.get('/',(req,res)=>{res.send("API Working")})
+
 
 // app.listen(PORT,()=>{
 //     console.log(`Running on PORT: http://localhost:${PORT} `)
