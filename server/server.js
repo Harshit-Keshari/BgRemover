@@ -22,9 +22,9 @@ app.get('/',(req,res)=>{res.send("API Working")})
 app.use('/api/user',userRouter)
 
 if(process.env.NODE_ENV !=='production'){
-    app.listen(5000 , (err)=>{
+    app.listen(PORT , (err)=>{
         if(!err){
-            console.log("server is running on 5000 port");
+            console.log(`server is running on ${PORT}`);
         }
     })
 }
