@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import connectDB from './config/mongoDb.js';
+import userRouter from './routes/userRoutes.js';
 
 
 
@@ -19,6 +20,7 @@ app.use(cors()) // to connect client running on different port
 // API routes
 
 app.get('/',(req,res)=>{res.send("API Working")})
+app.use('/api/user',userRouter)
 
 app.listen(PORT,()=>{
     console.log(`Running on PORT: http://localhost:${PORT} `)
