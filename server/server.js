@@ -4,14 +4,11 @@ import cors from 'cors'
 import connectDB from './config/mongoDb.js';
 import userRouter from './routes/userRoutes.js';
 
-
-
-
+await connectDB();
 // App config 
 const PORT=process.env.PORT || 4000;
 
 const app =express()
-await connectDB()
 
 // Middlewares 
 app.use(express.json()) // for parsing
