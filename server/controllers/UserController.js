@@ -27,7 +27,7 @@ const clerkWebhooks = async(req,res) =>{
                     lastName:data.last_name,
                 }
                 await userModel.create(userData)
-                res.JSON()
+                res.JSON({})
                 break;
             }
             case "user.updated" :{
@@ -39,13 +39,13 @@ const clerkWebhooks = async(req,res) =>{
                 }
 
                 await userModel.findOneAndUpdate({clerkId:data.id},userData)
-                res.JSON()
+                res.JSON({})
                 break;
             }
             case "user.deleted" :{
 
                 await userModel.findOneAndDelete({clerkId:data.id})
-                res.JSON()
+                res.JSON({})
                 break;
             }
             default:
