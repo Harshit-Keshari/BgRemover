@@ -3,9 +3,14 @@ import express from 'express'
 import cors from 'cors'
 import connectDB from './config/mongoDb.js'
 import userRouter from './routes/userRoutes.js'
+import { clerkWebhooks } from './controllers/UserController.js'
 
-// Initialize app
 const app = express()
+
+// 🧩 Webhook route must come BEFORE express.json()
+app.post('/api/user/webhooks', express.raw({ type: 'application/json' }), clerkWebhooks)
+
+// Normal middleware (after webhooks)
 app.use(express.json())
 app.use(cors())
 
@@ -22,13 +27,12 @@ const init = async () => {
     console.error('❌ MongoDB connection failed:', error.message)
   }
 }
-
 init()
 
-// Local dev only (Vercel auto handles serverless invocation)
+// Local development server (Vercel runs serverless)
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 4000
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
 }
 
 export default app
