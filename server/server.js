@@ -16,11 +16,18 @@ await connectDB()
 // Middlewares 
 app.use(express.json()) // for parsing
 app.use(cors()) // to connect client running on different port
+app.get('/',(req,res)=>{res.send("API Working")})
 
 // API routes
 app.use('/api/user',userRouter)
-app.get('/',(req,res)=>{res.send("API Working")})
 
+if(process.env.NODE_ENV !=='production'){
+    app.listen(5000 , (err)=>{
+        if(!err){
+            console.log("server is running on 5000 port");
+        }
+    })
+}
 
 // app.listen(PORT,()=>{
 //     console.log(`Running on PORT: http://localhost:${PORT} `)
