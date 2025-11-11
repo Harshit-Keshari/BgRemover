@@ -13,6 +13,12 @@ app.use(cors())
 app.get('/', (req, res) => res.send('API Working ✅'))
 app.use('/api/user', userRouter)
 
+app.post('/api/webhook', express.json(), async (req, res) => {
+  console.log('Webhook received:', req.body);
+  res.status(200).send('ok');
+});
+
+
 // Connect DB safely
 const init = async () => {
   try {
