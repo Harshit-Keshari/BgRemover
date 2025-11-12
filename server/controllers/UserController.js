@@ -26,9 +26,15 @@ export const clerkWebhooks = async (req, res) => {
     // ✅ 5. Handle different Clerk event types
     switch (type) {
       case "user.created": {
+        const email = data.email_addresses?.[0]?.email_address
+
+        if (!email) {
+          console.warn("⚠️ Webhook received user without email:", data.id)
+          return res.status(400).json({ success: false, message: "Email missing in webhook data" })
+        }
         const userData = {
           clerkId: data.id,
-          email: data.email_addresses?.[0]?.email_address || "",
+          // email: data.email_addresses?.[0]?.email_address || "",
           photo: data.image_url,
           firstName: data.first_name,
           lastName: data.last_name,
