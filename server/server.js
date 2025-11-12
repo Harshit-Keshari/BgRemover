@@ -4,17 +4,24 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import connectDB from './config/mongoDb.js'
 import userRouter from './routes/userRoutes.js'
+import { clerkWebhooks } from './controllers/userController.js' // ✅ import controller
 
 // Initialize app
 const app = express()
 app.use(cors())
 
+// 🧩 Apply raw body ONLY for Clerk webhooks
+app.post('/api/user/webhooks',
+  bodyParser.raw({ type: 'application/json' }),
+  clerkWebhooks
+)
+
+// Apply express.json() for all other routes
+app.use(express.json())
+
 // Routes
 app.get('/', (req, res) => res.send('API Working ✅'))
 app.use('/api/user', userRouter)
-
-
-
 
 // Connect DB safely
 const init = async () => {
