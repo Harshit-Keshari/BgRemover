@@ -70,7 +70,11 @@ export const clerkWebhooks = async (req, res) => {
         return res.json({ received: true })
     }
   } catch (error) {
-    console.error("❌ Webhook Error:", error.message)
-    res.status(400).json({ success: false, message: error.message })
-  }
+    console.error("❌ Webhook Error:", error);
+    return res.status(500).json({
+    success: false,
+    message: error.message,
+    stack: error.stack, // temporary for debugging
+  });
+}
 }
