@@ -4,7 +4,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import connectDB from './config/mongoDb.js'
 import userRouter from './routes/userRoutes.js'
-import { clerkWebhooks } from './controllers/userController.js' // ✅ import controller
+import { clerkWebhooks } from './controllers/UserController.js' 
 
 // Initialize app
 const app = express()
