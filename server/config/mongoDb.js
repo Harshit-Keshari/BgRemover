@@ -1,18 +1,24 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
+
+let isConnected = false // Track connection state
 
 const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) {
-    // Already connected (prevents duplicate connections on Vercel)
-    return;
+  if (isConnected) {
+    console.log("🟢 Using existing MongoDB connection")
+    return
   }
 
   try {
-    await mongoose.connect(`${process.env.MONGODB_URI}/bgRemoval`);
-    console.log("✅ MongoDB Connected Successfully");
-  } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error.message);
-    throw error;
-  }
-};
+    const conn = await mongoose.connect(`${process.env.MONGODB_URI}/bgRemoval`, {
+      serverSelectionTimeoutMS: 5000,
+    })
 
-export default connectDB;
+    isConnected = conn.connections[0].readyState === 1
+    console.log("✅ MongoDB connected successfully")
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error.message)
+    throw error
+  }
+}
+
+export default connectDB
