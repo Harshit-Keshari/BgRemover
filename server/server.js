@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 import connectDB from './config/mongoDb.js'
 import userRouter from './routes/userRoutes.js'
 import { clerkWebhooks } from './controllers/UserController.js'
-
+import imageRouter from './routes/imageRoutes.js'
 // Initialize app
 const app = express()
 app.use(cors())
@@ -23,6 +23,7 @@ app.use(express.json())
 // ✅ Routes
 app.get('/', (req, res) => res.send('API Working ✅'))
 app.use('/api/user', userRouter)
+app.use('/api/image',imageRouter)
 
 // ✅ Ensure DB is connected before starting server
 const init = async () => {
