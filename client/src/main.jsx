@@ -15,7 +15,7 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById('root')).render(
 
-    <BrowserRouter>
+    <BrowserRouter basename="/BgRemover">
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
     <AppContextProvider>
       <App />
